@@ -16,7 +16,15 @@ namespace Homepwner.Xamarin.iOS
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel DateCreated { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel Name { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UITextField NameText { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -24,13 +32,31 @@ namespace Homepwner.Xamarin.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UITextField SerialText { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel Value { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UITextField ValueText { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
+            if (DateCreated != null) {
+                DateCreated.Dispose ();
+                DateCreated = null;
+            }
+
             if (Name != null) {
                 Name.Dispose ();
                 Name = null;
+            }
+
+            if (NameText != null) {
+                NameText.Dispose ();
+                NameText = null;
             }
 
             if (Serial != null) {
@@ -38,9 +64,19 @@ namespace Homepwner.Xamarin.iOS
                 Serial = null;
             }
 
+            if (SerialText != null) {
+                SerialText.Dispose ();
+                SerialText = null;
+            }
+
             if (Value != null) {
                 Value.Dispose ();
                 Value = null;
+            }
+
+            if (ValueText != null) {
+                ValueText.Dispose ();
+                ValueText = null;
             }
         }
     }
