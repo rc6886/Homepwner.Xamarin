@@ -57,7 +57,7 @@
         </scene>
         <scene sceneID="118">
             <objects>
-                <viewController id="119" sceneMemberID="viewController" customClass="ViewController">
+                <viewController id="119" sceneMemberID="viewController" customClass="ItemDetailViewController" storyboardIdentifier="ItemDetailViewController" useStoryboardIdentifierAsRestorationIdentifier="YES">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="116"/>
                         <viewControllerLayoutGuide type="bottom" id="117"/>
@@ -76,7 +76,11 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="206" translatesAutoresizingMaskIntoConstraints="NO">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <items>
-                                    <barButtonItem id="217" systemItem="camera"/>
+                                    <barButtonItem id="217" systemItem="camera">
+                                        <accessibilityConfiguration key="accessibilityConfiguration">
+                                            <traits key="traits" button="YES"/>
+                                        </accessibilityConfiguration>
+                                    </barButtonItem>
                                     <barButtonItem id="207"/>
                                 </items>
                                 <constraints>
@@ -197,6 +201,7 @@
                         <outlet property="SerialText" destination="239" id="name-outlet-239"/>
                         <outlet property="ValueText" destination="240" id="name-outlet-240"/>
                         <outlet property="DateCreated" destination="237" id="name-outlet-237"/>
+                        <outlet property="CameraButton" destination="217" id="name-outlet-217"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="121" userLabel="First Responder" sceneMemberID="firstResponder"/>
