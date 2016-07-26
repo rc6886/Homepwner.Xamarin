@@ -1,5 +1,7 @@
 using System;
 using UIKit;
+using System.IO;
+using Foundation;
 
 namespace Homepwner.Xamarin.iOS
 {
@@ -15,6 +17,11 @@ namespace Homepwner.Xamarin.iOS
 		{
 			base.ViewDidLoad();
 
+			if (!UIImagePickerController.IsSourceTypeAvailable(UIImagePickerControllerSourceType.Camera))
+			{
+				return;
+			}
+
 			_imagePickerController = new UIImagePickerController
 			{
 				SourceType = UIImagePickerControllerSourceType.Camera,
@@ -28,6 +35,15 @@ namespace Homepwner.Xamarin.iOS
 
 		void ImagePickerController_FinishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e)
 		{
+			var photo = e.OriginalImage;
+
+			var photoFileName = Path.Combine(ApplicationConstants.ApplicationDocumentsDirectory, "Photo.jpeg");
+			var photoData = photo.AsJPEG();
+
+			NSError photoSaveError;
+
+			photoData.Save(photoFileName, Foundation.NSDataWritingOptions.Atomic, out photoSaveError);
+
 			_imagePickerController.DismissViewController(true, null);
 		}
 

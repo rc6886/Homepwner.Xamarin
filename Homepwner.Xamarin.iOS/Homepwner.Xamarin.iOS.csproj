@@ -93,6 +93,7 @@
     <Compile Include="ItemDetailViewController.designer.cs">
       <DependentUpon>ItemDetailViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="ApplicationConstants.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ViewController.designer.cs">
