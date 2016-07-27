@@ -94,6 +94,10 @@
       <DependentUpon>ItemDetailViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="ApplicationConstants.cs" />
+    <Compile Include="ItemsTableViewController.cs" />
+    <Compile Include="ItemsTableViewController.designer.cs">
+      <DependentUpon>ItemsTableViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ViewController.designer.cs">
