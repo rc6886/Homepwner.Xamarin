@@ -16,11 +16,7 @@ namespace Homepwner.Xamarin.iOS
 		{
 			base.ViewWillAppear(animated);
 
-			TableView.Source = new ItemsTableSource(new List<Item>
-			{
-				new Item { Name = "Test" },
- 				new Item { Name = "Test2" },
-			});
+			TableView.Source = new ItemsTableSource(NavigationController, ItemData.Items);
 		}
 	}
 
@@ -29,8 +25,11 @@ namespace Homepwner.Xamarin.iOS
 		private readonly IEnumerable<Item> _items;
 		private string CellIdentifier => "ItemCell";
 
-		public ItemsTableSource(IEnumerable<Item> items)
+		private readonly UINavigationController _navigationController;
+
+		public ItemsTableSource(UINavigationController navigationController, IEnumerable<Item> items)
 		{
+			_navigationController = navigationController;
 			_items = items;
 		}
 
@@ -52,6 +51,18 @@ namespace Homepwner.Xamarin.iOS
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
 			return _items.Count();
+		}
+
+		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+		{
+			//base.RowSelected(tableView, indexPath);
+
+			//_navigationController.PushViewController(new ItemDetailViewController(_items.ElementAt(indexPath.Row)), true);
+
+			var itemDetailViewController = _navigationController.Storyboard.InstantiateViewController("ItemDetailViewController")
+																as ItemDetailViewController;
+			itemDetailViewController.SetItem(_items.ElementAt(indexPath.Row));
+			_navigationController.PushViewController(itemDetailViewController, true);
 		}
 	}
 

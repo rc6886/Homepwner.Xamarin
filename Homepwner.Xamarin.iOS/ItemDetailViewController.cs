@@ -8,14 +8,25 @@ namespace Homepwner.Xamarin.iOS
 	public partial class ItemDetailViewController : UIViewController
 	{
 		private UIImagePickerController _imagePickerController;
+		private Item _item;
 
 		public ItemDetailViewController(IntPtr handle) : base(handle)
 		{
 		}
 
+		public ItemDetailViewController(Item item)
+		{
+			_item = item; ;
+		}
+
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
+
+			var doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Save);
+			doneButton.Clicked += DoneButton_Clicked;
+
+			NavigationItem.SetRightBarButtonItem(doneButton, false);
 
 			if (!UIImagePickerController.IsSourceTypeAvailable(UIImagePickerControllerSourceType.Camera))
 			{
@@ -33,6 +44,33 @@ namespace Homepwner.Xamarin.iOS
 			CameraButton.Clicked += CameraButton_Clicked;
 		}
 
+		public override void ViewWillAppear(bool animated)
+		{
+			base.ViewWillAppear(animated);
+
+			if (_item == null)
+			{
+				return;
+			}
+
+			NameText.Text = _item.Name;
+			SerialText.Text = _item.SerialNumber;
+			ValueText.Text = _item.Value.ToString();
+		}
+
+		void DoneButton_Clicked(object sender, EventArgs e)
+		{
+			ItemData.Items.Add(new Item
+			{
+				Id = Guid.NewGuid(),
+				Name = NameText.Text,
+				SerialNumber = SerialText.Text,
+				Value = double.Parse(ValueText.Text),
+			});
+
+			NavigationController.PopToRootViewController(true);
+		}
+
 		void ImagePickerController_FinishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e)
 		{
 			var photo = e.OriginalImage;
@@ -43,6 +81,14 @@ namespace Homepwner.Xamarin.iOS
 			NSError photoSaveError;
 
 			photoData.Save(photoFileName, Foundation.NSDataWritingOptions.Atomic, out photoSaveError);
+
+			//ItemData.Items.Add(new Item
+			//{
+			//	Id = Guid.NewGuid(),
+			//	Name = NameText.Text,
+			//	SerialNumber = SerialText.Text,
+			//	Value = double.Parse(ValueText.Text),
+			//});
 
 			_imagePickerController.DismissViewController(true, null);
 		}
@@ -55,6 +101,11 @@ namespace Homepwner.Xamarin.iOS
 		void CameraButton_Clicked(object sender, EventArgs e)
 		{
 			PresentModalViewController(_imagePickerController, true);
+		}
+
+		public void SetItem(Item item)
+		{
+			_item = item;
 		}
 	}
 }
