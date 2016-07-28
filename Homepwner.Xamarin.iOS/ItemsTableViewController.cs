@@ -22,12 +22,12 @@ namespace Homepwner.Xamarin.iOS
 
 	public class ItemsTableSource : UITableViewSource
 	{
-		private readonly IEnumerable<Item> _items;
+		private readonly IList<Item> _items;
 		private string CellIdentifier => "ItemCell";
 
 		private readonly UINavigationController _navigationController;
 
-		public ItemsTableSource(UINavigationController navigationController, IEnumerable<Item> items)
+		public ItemsTableSource(UINavigationController navigationController, IList<Item> items)
 		{
 			_navigationController = navigationController;
 			_items = items;
@@ -55,14 +55,26 @@ namespace Homepwner.Xamarin.iOS
 
 		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
 		{
-			//base.RowSelected(tableView, indexPath);
-
-			//_navigationController.PushViewController(new ItemDetailViewController(_items.ElementAt(indexPath.Row)), true);
-
 			var itemDetailViewController = _navigationController.Storyboard.InstantiateViewController("ItemDetailViewController")
 																as ItemDetailViewController;
 			itemDetailViewController.SetItem(_items.ElementAt(indexPath.Row));
 			_navigationController.PushViewController(itemDetailViewController, true);
+		}
+
+		public override void CommitEditingStyle(UITableView tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath indexPath)
+		{
+			switch (editingStyle)
+			{
+				case UITableViewCellEditingStyle.Delete:
+					_items.RemoveAt(indexPath.Row);
+					tableView.DeleteRows(new[] { indexPath }, UITableViewRowAnimation.Automatic);
+					break;
+			}
+		}
+
+		public override bool CanEditRow(UITableView tableView, NSIndexPath indexPath)
+		{
+			return true;
 		}
 	}
 

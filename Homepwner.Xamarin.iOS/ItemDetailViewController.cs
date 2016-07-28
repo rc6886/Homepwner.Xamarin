@@ -80,15 +80,7 @@ namespace Homepwner.Xamarin.iOS
 
 			NSError photoSaveError;
 
-			photoData.Save(photoFileName, Foundation.NSDataWritingOptions.Atomic, out photoSaveError);
-
-			//ItemData.Items.Add(new Item
-			//{
-			//	Id = Guid.NewGuid(),
-			//	Name = NameText.Text,
-			//	SerialNumber = SerialText.Text,
-			//	Value = double.Parse(ValueText.Text),
-			//});
+			photoData.Save(photoFileName, Foundation.NSDataWritingOptions.Atomic, out photoSaveError); ;
 
 			_imagePickerController.DismissViewController(true, null);
 		}
