@@ -80,7 +80,7 @@ namespace Homepwner.Xamarin.iOS
 
 			NSError photoSaveError;
 
-			photoData.Save(photoFileName, Foundation.NSDataWritingOptions.Atomic, out photoSaveError); ;
+			photoData.Save(photoFileName, NSDataWritingOptions.Atomic, out photoSaveError); ;
 
 			_imagePickerController.DismissViewController(true, null);
 		}

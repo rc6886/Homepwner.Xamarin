@@ -14,8 +14,16 @@ namespace Homepwner.Xamarin.iOS
     [Register ("ItemsTableViewController")]
     partial class ItemsTableViewController
     {
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIBarButtonItem EditButton { get; set; }
+
         void ReleaseDesignerOutlets ()
         {
+            if (EditButton != null) {
+                EditButton.Dispose ();
+                EditButton = null;
+            }
         }
     }
 }

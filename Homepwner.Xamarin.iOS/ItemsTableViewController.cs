@@ -12,11 +12,25 @@ namespace Homepwner.Xamarin.iOS
 		{
 		}
 
+		public override void ViewDidLoad()
+		{
+			base.ViewDidLoad();
+
+			EditButton.Clicked += EditButton_Clicked;
+		}
+
 		public override void ViewWillAppear(bool animated)
 		{
 			base.ViewWillAppear(animated);
 
 			TableView.Source = new ItemsTableSource(NavigationController, ItemData.Items);
+		}
+
+		void EditButton_Clicked(object sender, EventArgs e)
+		{
+			TableView.SetEditing(!TableView.Editing, true);
+
+			EditButton.Title = TableView.Editing ? "Done" : "Edit";
 		}
 	}
 
