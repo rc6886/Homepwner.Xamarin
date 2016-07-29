@@ -1,5 +1,6 @@
 ﻿using System;
-namespace Homepwner.API
+
+namespace Homepwner.API.Features.Item.Models
 {
     public class Item
     {

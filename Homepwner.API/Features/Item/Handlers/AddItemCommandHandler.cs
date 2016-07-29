@@ -1,7 +1,8 @@
 ﻿using System;
+using AutoMapper;
 using MediatR;
 
-namespace Homepwner.API
+namespace Homepwner.API.Features.Item.Handlers
 {
     public class AddItemCommand : IRequest
     {
@@ -20,7 +21,7 @@ namespace Homepwner.API
 
         protected override void HandleCore(AddItemCommand message)
         {
-            throw new NotImplementedException();
+            var item = Mapper.Map<Models.Item>(message);
         }
     }
 }
