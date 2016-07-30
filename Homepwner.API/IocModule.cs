@@ -2,6 +2,7 @@
 using System.Reflection;
 using Autofac;
 using Autofac.Features.Variance;
+using Homepwner.API.Features.Item.Handlers;
 using MediatR;
 using Module = Autofac.Module;
 
@@ -13,6 +14,7 @@ namespace Homepwner.API
         {
             builder.RegisterSource(new ContravariantRegistrationSource());
             builder.RegisterAssemblyTypes(typeof (IMediator).GetTypeInfo().Assembly).AsImplementedInterfaces();
+            builder.RegisterAssemblyTypes(typeof (AddItemCommand).GetTypeInfo().Assembly).AsImplementedInterfaces();
             builder.Register<SingleInstanceFactory>(ctx =>
             {
                 var c = ctx.Resolve<IComponentContext>();
@@ -23,6 +25,7 @@ namespace Homepwner.API
                 var c = ctx.Resolve<IComponentContext>();
                 return t => (IEnumerable<object>) c.Resolve(typeof (IEnumerable<>).MakeGenericType(t));
             });
+            builder.RegisterType<Mediator>().As<IMediator>();
         }
     }
 }
