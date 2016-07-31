@@ -11,6 +11,7 @@ namespace Homepwner.API.Features.Item.Handlers
         public string SerialNumber { get; set; }
         public double Value { get; set; }
         public DateTime DateCreated { get; set; }
+        public string PhotoPath { get; set; }
     }
 
     public class AddItemCommandHandler : RequestHandler<AddItemCommand>

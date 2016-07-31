@@ -1,6 +1,4 @@
-﻿using Homepwner.API.Extensions;
-using Homepwner.API.Features.Item.Handlers;
-using MediatR;
+﻿using MediatR;
 using Nancy;
 
 namespace Homepwner.API.Modules
@@ -12,9 +10,8 @@ namespace Homepwner.API.Modules
         public HomeModule(IMediator mediator)
         {
             _mediator = mediator;
-            _mediator.Send(new AddItemCommand());
+
             Get["/"] = parameters => "Hello world";
-            //this.Post<AddItemCommand>(x => x.)
         }
     }
 }
