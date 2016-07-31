@@ -14,6 +14,7 @@ namespace Homepwner.API
 
             var builder = new ContainerBuilder();
             builder.RegisterModule(new IocModule());
+
             builder.Update(container.ComponentRegistry);
 
             Mapper.Initialize(cfg =>

@@ -1,15 +1,19 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Reflection;
 using Autofac;
 using Autofac.Features.Variance;
 using Homepwner.API.Features.Item.Handlers;
 using MediatR;
+using NPoco;
 using Module = Autofac.Module;
 
 namespace Homepwner.API
 {
     public class IocModule : Module
     {
+        private readonly string _databaseConnectionString = ConfigurationManager.ConnectionStrings["Homepwner"].ConnectionString;
+
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterSource(new ContravariantRegistrationSource());
@@ -28,6 +32,8 @@ namespace Homepwner.API
             });
 
             builder.RegisterType<Mediator>().As<IMediator>();
+            builder.Register(c => new Database(_databaseConnectionString, DatabaseType.SqlServer2012))
+                .As<IDatabase>();
         }
     }
 }

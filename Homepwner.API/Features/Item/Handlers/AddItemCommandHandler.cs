@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using MediatR;
+using NPoco;
 
 namespace Homepwner.API.Features.Item.Handlers
 {
@@ -16,13 +17,18 @@ namespace Homepwner.API.Features.Item.Handlers
 
     public class AddItemCommandHandler : RequestHandler<AddItemCommand>
     {
-        public AddItemCommandHandler()
+        private readonly IDatabase _database;
+
+        public AddItemCommandHandler(IDatabase database)
         {
+            _database = database;
         }
 
         protected override void HandleCore(AddItemCommand message)
         {
             var item = Mapper.Map<Models.Item>(message);
+
+            _database.Insert(item);
         }
     }
 }
