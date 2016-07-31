@@ -12,10 +12,25 @@ namespace Homepwner.API.Tests
     {
         private TransactionScope _transactionScope;
 
+        [OneTimeSetUp]
+        public void TestFixtureSetup()
+        {
+            _transactionScope = new TransactionScope();
+        }
+
+        [OneTimeTearDown]
+        public void TestFixtureTearDown()
+        {
+            _transactionScope?.Dispose();
+        }
+    }
+
+    public class MediatorTestFixtureBase : TestFixtureBase
+    {
         public IMediator Mediator { get; private set; }
         public IDatabase Database { get; private set; }
 
-        public TestFixtureBase()
+        public MediatorTestFixtureBase()
         {
             var builder = new ContainerBuilder();
 
@@ -29,18 +44,6 @@ namespace Homepwner.API.Tests
             {
                 cfg.AddProfile<DefaultMappingProfile>();
             });
-        }
-
-        [OneTimeSetUp]
-        public void TestFixtureSetup()
-        {
-            _transactionScope = new TransactionScope();
-        }
-
-        [OneTimeTearDown]
-        public void TestFixtureTearDown()
-        {
-            _transactionScope?.Dispose();
         }
     }
 }

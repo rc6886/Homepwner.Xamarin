@@ -4,6 +4,7 @@ using System.Reflection;
 using Autofac;
 using Autofac.Features.Variance;
 using Homepwner.API.Features.Item.Handlers;
+using Homepwner.API.Services;
 using MediatR;
 using NPoco;
 using Module = Autofac.Module;
@@ -32,6 +33,8 @@ namespace Homepwner.API
             });
 
             builder.RegisterType<Mediator>().As<IMediator>();
+            builder.RegisterType<SystemTime>().As<ISystemTime>();
+            builder.RegisterType<WindowsFileService>().As<IFileService>();
             builder.Register(c => new Database(_databaseConnectionString, DatabaseType.SqlServer2012))
                 .As<IDatabase>();
         }

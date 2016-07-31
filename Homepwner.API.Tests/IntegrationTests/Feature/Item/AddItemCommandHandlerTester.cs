@@ -6,7 +6,7 @@ using Should;
 namespace Homepwner.API.Tests.IntegrationTests.Feature.Item
 {
     [TestFixture]
-    public class AddItemCommandHandlerTester : TestFixtureBase
+    public class AddItemCommandHandlerTester : MediatorTestFixtureBase
     {
         [Test]
         public void AddItemCommand_ShouldAddItem()

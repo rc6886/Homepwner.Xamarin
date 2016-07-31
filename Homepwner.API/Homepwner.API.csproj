@@ -83,11 +83,14 @@
   <ItemGroup>
     <Compile Include="AutoMapper\DefaultMappingProfile.cs" />
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Constants\Configuration.cs" />
     <Compile Include="Extensions\ExtensionsOfRouteBuilder.cs" />
     <Compile Include="IocModule.cs" />
     <Compile Include="Modules\HomeModule.cs" />
     <Compile Include="Features\Item\Handlers\AddItemCommandHandler.cs" />
     <Compile Include="Features\Item\Models\Item.cs" />
+    <Compile Include="Services\SystemTime.cs" />
+    <Compile Include="Services\WindowsFileService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataAccess\" />
