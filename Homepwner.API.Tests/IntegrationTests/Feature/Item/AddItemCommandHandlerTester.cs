@@ -17,7 +17,7 @@ namespace Homepwner.API.Tests.IntegrationTests.Feature.Item
                 SerialNumber = "123ASD",
                 Value = 10,
                 DateCreated = new DateTime(2015, 1, 1),
-                PhotoPath = "PhotoPath",
+                Photo = new []{ (byte) 1},
             };
 
             Mediator.Send(addItemCommand);
@@ -28,6 +28,8 @@ namespace Homepwner.API.Tests.IntegrationTests.Feature.Item
             item.SerialNumber.ShouldEqual("123ASD");
             item.Value.ShouldEqual(10);
             item.DateCreated.ShouldEqual(new DateTime(2015, 1, 1));
+
+            FileServiceMock.Verify(mock => mock.AddFile(item.Id, addItemCommand.Photo));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using Homepwner.API.Services;
 using MediatR;
 using NPoco;
 
@@ -12,23 +13,34 @@ namespace Homepwner.API.Features.Item.Handlers
         public string SerialNumber { get; set; }
         public double Value { get; set; }
         public DateTime DateCreated { get; set; }
-        public string PhotoPath { get; set; }
+        public byte[] Photo { get; set; }
     }
 
     public class AddItemCommandHandler : RequestHandler<AddItemCommand>
     {
         private readonly IDatabase _database;
+        private readonly IFileService _fileService;
 
-        public AddItemCommandHandler(IDatabase database)
+        public AddItemCommandHandler(IDatabase database, IFileService fileService)
         {
             _database = database;
+            _fileService = fileService;
         }
 
         protected override void HandleCore(AddItemCommand message)
         {
-            var item = Mapper.Map<Models.Item>(message);
+            using (_database)
+            {
+                using (var transaction = _database.GetTransaction())
+                {
+                    var item = Mapper.Map<Models.Item>(message);
 
-            _database.Insert(item);
+                    _database.Insert(item);
+                    _fileService.AddFile(Guid.NewGuid(), message.Photo);
+
+                    transaction.Complete();
+                }
+            }
         }
     }
 }
