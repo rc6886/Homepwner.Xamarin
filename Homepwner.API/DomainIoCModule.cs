@@ -11,7 +11,7 @@ using Module = Autofac.Module;
 
 namespace Homepwner.API
 {
-    public class IocModule : Module
+    public class DomainIocModule : Module
     {
         private readonly string _databaseConnectionString = ConfigurationManager.ConnectionStrings["Homepwner"].ConnectionString;
 

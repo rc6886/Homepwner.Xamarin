@@ -85,7 +85,9 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Constants\Configuration.cs" />
     <Compile Include="Extensions\ExtensionsOfRouteBuilder.cs" />
-    <Compile Include="IocModule.cs" />
+    <Compile Include="Features\Item\Handlers\DeleteItemCommandHandler.cs" />
+    <Compile Include="Features\Item\Handlers\GetItemQueryHandler.cs" />
+    <Compile Include="DomainIoCModule.cs" />
     <Compile Include="Modules\HomeModule.cs" />
     <Compile Include="Features\Item\Handlers\AddItemCommandHandler.cs" />
     <Compile Include="Features\Item\Models\Item.cs" />

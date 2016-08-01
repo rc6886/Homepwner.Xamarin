@@ -28,13 +28,20 @@ namespace Homepwner.API.Tests.IntegrationTests.Services
         [Test]
         public void AddFile_ShouldAddFileToFileSystem()
         {
-            var file = new[] { (byte)1, (byte)1 };
-            var fileId = Guid.NewGuid();
+            var fileId = AddFile();
+            var filePath = _fileService.GetFileSavePath(fileId);
+            File.Exists(filePath).ShouldBeTrue();
+        }
 
-            _fileService.AddFile(fileId, file);
+        [Test]
+        public void DeleteFile_ShouldDeleteFileFromFileSystem()
+        {
+            var fileId = AddFile();
+            var filePath = _fileService.GetFileSavePath(fileId);
 
-            var imagePath = _fileService.GetFileSavePath(fileId);
-            File.Exists(imagePath).ShouldBeTrue();
+            _fileService.DeleteFile(fileId);
+
+            File.Exists(filePath).ShouldBeFalse();
         }
 
         [Test]
@@ -43,6 +50,16 @@ namespace Homepwner.API.Tests.IntegrationTests.Services
             var fileId = Guid.NewGuid();
             var fileSavePath = _fileService.GetFileSavePath(fileId);
             fileSavePath.ShouldEqual(Path.Combine(@"C:\Homepwner\Test\Photos\2015-01-01", fileId + ".png"));
+        }
+
+        private Guid AddFile()
+        {
+            var file = new[] { (byte)1, (byte)1 };
+            var fileId = Guid.NewGuid();
+
+            _fileService.AddFile(fileId, file);
+
+            return fileId;
         }
 
         [OneTimeTearDown]

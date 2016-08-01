@@ -13,7 +13,7 @@ namespace Homepwner.API
             base.ConfigureRequestContainer(container, context);
 
             var builder = new ContainerBuilder();
-            builder.RegisterModule(new IocModule());
+            builder.RegisterModule(new DomainIocModule());
 
             builder.Update(container.ComponentRegistry);
 

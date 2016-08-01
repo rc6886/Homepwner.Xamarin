@@ -38,7 +38,7 @@ namespace Homepwner.API.Tests
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterModule(new IocModule());
+            builder.RegisterModule(new DomainIocModule());
 
             FileServiceMock = new Mock<IFileService>();
             FileServiceMock.Setup(mock => mock.AddFile(It.IsAny<Guid>(), It.IsAny<byte[]>()));

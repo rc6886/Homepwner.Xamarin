@@ -1,5 +1,6 @@
 ﻿using System;
 using Homepwner.API.Features.Item.Handlers;
+using Moq;
 using NUnit.Framework;
 using Should;
 
@@ -29,7 +30,7 @@ namespace Homepwner.API.Tests.IntegrationTests.Feature.Item
             item.Value.ShouldEqual(10);
             item.DateCreated.ShouldEqual(new DateTime(2015, 1, 1));
 
-            FileServiceMock.Verify(mock => mock.AddFile(item.Id, addItemCommand.Photo));
+            FileServiceMock.Verify(mock => mock.AddFile(It.IsAny<Guid>(), It.IsAny<byte[]>()), Times.Once);
         }
     }
 }
