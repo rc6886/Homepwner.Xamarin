@@ -1,4 +1,6 @@
-﻿using Homepwner.API.Features.Item.Handlers;
+﻿using System.Collections.Generic;
+using Homepwner.API.Features.Item.Handlers;
+using Homepwner.API.Features.Item.Models;
 using MediatR;
 using Nancy;
 
@@ -11,10 +13,16 @@ namespace Homepwner.API.Modules
         public HomeModule(IMediator mediator)
         {
             _mediator = mediator;
-            _mediator.Send(new AddItemCommand());
 
-            Get["/"] = parameters => "Hello world";
+            Get["/"] = parameters => "The Homepwner API is running...";
+
+            Post["/items"] = parameters => GetAllItems();
         }
+
+        private IEnumerable<Item> GetAllItems()
+        {
+            return _mediator.Send(new GetAllItemsQuery());
+        } 
     }
 }
 

@@ -86,6 +86,7 @@
     <Compile Include="Constants\Configuration.cs" />
     <Compile Include="Extensions\ExtensionsOfRouteBuilder.cs" />
     <Compile Include="Features\Item\Handlers\DeleteItemCommandHandler.cs" />
+    <Compile Include="Features\Item\Handlers\GetAllItemsQueryHandler.cs" />
     <Compile Include="Features\Item\Handlers\GetItemQueryHandler.cs" />
     <Compile Include="DomainIoCModule.cs" />
     <Compile Include="Modules\HomeModule.cs" />
