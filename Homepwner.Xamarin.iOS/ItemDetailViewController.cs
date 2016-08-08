@@ -2,6 +2,10 @@ using System;
 using UIKit;
 using System.IO;
 using Foundation;
+using Homepwner.Xamarin.iOS.Infrastructure.HTTP;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Refit;
 
 namespace Homepwner.Xamarin.iOS
 {
@@ -58,15 +62,33 @@ namespace Homepwner.Xamarin.iOS
 			ValueText.Text = _item.Value.ToString();
 		}
 
-		void DoneButton_Clicked(object sender, EventArgs e)
+	    private async void DoneButton_Clicked(object sender, EventArgs e)
 		{
-			ItemData.Items.Add(new Item
-			{
-				Id = Guid.NewGuid(),
-				Name = NameText.Text,
-				SerialNumber = SerialText.Text,
-				Value = double.Parse(ValueText.Text),
-			});
+		    try
+		    {
+                var homepwnerApi = RestService.For<IHomepwnerApi>("http://homepwnerapi.ngrok.io", new RefitSettings
+                {
+                    JsonSerializerSettings = new JsonSerializerSettings
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver()
+                    }
+                });
+
+		        await homepwnerApi.UpdateItem(new Item
+		        {
+		            Id = _item.Id,
+		            Name = NameText.Text,
+		            SerialNumber = SerialText.Text,
+		            Value = double.Parse(ValueText.Text),
+		        });
+		    }
+            catch (Exception ex)
+		    {
+                var alert = UIAlertController.Create("Network Error",
+                    "There was a problem making the network request. Please try again.", UIAlertControllerStyle.Alert);
+                alert.AddAction(UIAlertAction.Create("Ok", UIAlertActionStyle.Cancel, null));
+                PresentViewController(alert, true, null);
+            }
 
 			NavigationController.PopToRootViewController(true);
 		}

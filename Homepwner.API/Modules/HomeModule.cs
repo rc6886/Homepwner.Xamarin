@@ -3,6 +3,7 @@ using Homepwner.API.Features.Item.Handlers;
 using Homepwner.API.Features.Item.Models;
 using MediatR;
 using Nancy;
+using Nancy.ModelBinding;
 
 namespace Homepwner.API.Modules
 {
@@ -17,12 +18,23 @@ namespace Homepwner.API.Modules
             Get["/"] = parameters => "The Homepwner API is running...";
 
             Post["/items"] = parameters => GetAllItems();
+            Post["/item/update"] = parameters =>
+            {
+                var updateItemCommand = this.Bind<UpdateItemCommand>();
+                UpdateItem(updateItemCommand);
+                return HttpStatusCode.OK;
+            };
         }
 
         private IEnumerable<Item> GetAllItems()
         {
             return _mediator.Send(new GetAllItemsQuery());
-        } 
+        }
+
+        private void UpdateItem(UpdateItemCommand command)
+        {
+            _mediator.Send(command);
+        }
     }
 }
 

@@ -9,5 +9,8 @@ namespace Homepwner.Xamarin.iOS.Infrastructure.HTTP
         [Post("/items")]
         [Headers("Accept: application/json")]
         Task<IEnumerable<Item>> GetAllItems();
+
+        [Post("/item/update")]
+        Task UpdateItem(Item item);
     }
 }
