@@ -10,6 +10,8 @@ namespace Homepwner.API.Features.Item.Handlers
         public string Name { get; set; }
         public string SerialNumber { get; set; }
         public double Value { get; set; }
+        public Guid ImageFileId { get; set; }
+        public byte[] Image { get; set; }
     }
 
     public class UpdateItemCommandHandler : RequestHandler<UpdateItemCommand>

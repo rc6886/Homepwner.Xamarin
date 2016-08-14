@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using Homepwner.API.Features.Item.Models;
 using Homepwner.API.Services;
 using MediatR;
 using NPoco;
@@ -34,9 +35,20 @@ namespace Homepwner.API.Features.Item.Handlers
                 using (var transaction = _database.GetTransaction())
                 {
                     var item = Mapper.Map<Models.Item>(message);
+                    item.Id = Guid.NewGuid();
 
                     _database.Insert(item);
-                    _fileService.AddFile(Guid.NewGuid(), message.Photo);
+
+                    var itemImage = new ItemImage
+                    {
+                        Id = Guid.NewGuid(),
+                        ItemId = item.Id,
+                        DateCreated = DateTime.UtcNow,
+                    };
+
+                    _database.Insert(itemImage);
+
+                    _fileService.AddFile(itemImage.Id, message.Photo);
 
                     transaction.Complete();
                 }

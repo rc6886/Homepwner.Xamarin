@@ -1,10 +1,10 @@
 using System;
+using System.Globalization;
 using UIKit;
 using System.IO;
+using System.Runtime.InteropServices;
 using Foundation;
 using Homepwner.Xamarin.iOS.Infrastructure.HTTP;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Refit;
 
 namespace Homepwner.Xamarin.iOS
@@ -13,14 +13,15 @@ namespace Homepwner.Xamarin.iOS
 	{
 		private UIImagePickerController _imagePickerController;
 		private Item _item;
+        private IHomepwnerApi _homepwnerApi => RestService.For<IHomepwnerApi>("http://homepwnertestapi.ngrok.io");
 
-		public ItemDetailViewController(IntPtr handle) : base(handle)
+        public ItemDetailViewController(IntPtr handle) : base(handle)
 		{
 		}
 
 		public ItemDetailViewController(Item item)
 		{
-			_item = item; ;
+			_item = item; 
 		}
 
 		public override void ViewDidLoad()
@@ -48,7 +49,7 @@ namespace Homepwner.Xamarin.iOS
 			CameraButton.Clicked += CameraButton_Clicked;
 		}
 
-		public override void ViewWillAppear(bool animated)
+		public override async void ViewWillAppear(bool animated)
 		{
 			base.ViewWillAppear(animated);
 
@@ -59,28 +60,46 @@ namespace Homepwner.Xamarin.iOS
 
 			NameText.Text = _item.Name;
 			SerialText.Text = _item.SerialNumber;
-			ValueText.Text = _item.Value.ToString();
+			ValueText.Text = _item.Value.ToString(CultureInfo.InvariantCulture);
+
+		    try
+		    {
+                var httpResponse = await _homepwnerApi.GetItemImage(_item.Id);
+		        var image = httpResponse.ReadAsByteArrayAsync().Result;
+                ItemImage.Image = new UIImage(NSData.FromArray(image));
+            }
+		    catch (Exception ex) 
+		    {
+                var alert = UIAlertController.Create("Network Error",
+                    "There was a problem making the network request. Please try again.", UIAlertControllerStyle.Alert);
+                alert.AddAction(UIAlertAction.Create("Ok", UIAlertActionStyle.Cancel, null));
+                PresentViewController(alert, true, null);
+            }
+		    
 		}
 
 	    private async void DoneButton_Clicked(object sender, EventArgs e)
 		{
 		    try
 		    {
-                var homepwnerApi = RestService.For<IHomepwnerApi>("http://homepwnerapi.ngrok.io", new RefitSettings
-                {
-                    JsonSerializerSettings = new JsonSerializerSettings
-                    {
-                        ContractResolver = new CamelCasePropertyNamesContractResolver()
-                    }
-                });
+		        byte[] image;
 
-		        await homepwnerApi.UpdateItem(new Item
+		        using (var imageData = ItemImage.Image.AsPNG())
+		        {
+		            image = new byte[imageData.Length];
+                    Marshal.Copy(imageData.Bytes, image, 0, Convert.ToInt32(imageData.Length));
+		        }
+
+		        var updateItemCommand = new Item
 		        {
 		            Id = _item.Id,
 		            Name = NameText.Text,
 		            SerialNumber = SerialText.Text,
 		            Value = double.Parse(ValueText.Text),
-		        });
+		            Image = image,
+		        };
+
+		        await _homepwnerApi.UpdateItem(updateItemCommand);
 		    }
             catch (Exception ex)
 		    {

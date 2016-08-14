@@ -205,6 +205,7 @@
                         <outlet property="ValueText" destination="240" id="name-outlet-240"/>
                         <outlet property="DateCreated" destination="237" id="name-outlet-237"/>
                         <outlet property="CameraButton" destination="217" id="name-outlet-217"/>
+                        <outlet property="ItemImage" destination="201" id="name-outlet-201"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="121" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -105,9 +105,11 @@
     <Compile Include="Extensions\ExtensionsOfRouteBuilder.cs" />
     <Compile Include="Features\Item\Handlers\DeleteItemCommandHandler.cs" />
     <Compile Include="Features\Item\Handlers\GetAllItemsQueryHandler.cs" />
+    <Compile Include="Features\Item\Handlers\GetItemImageQueryHandler.cs" />
     <Compile Include="Features\Item\Handlers\GetItemQueryHandler.cs" />
     <Compile Include="DomainIoCModule.cs" />
     <Compile Include="Features\Item\Handlers\UpdateItemCommandHandler.cs" />
+    <Compile Include="Features\Item\Models\ItemImage.cs" />
     <Compile Include="Modules\HomeModule.cs" />
     <Compile Include="Features\Item\Handlers\AddItemCommandHandler.cs" />
     <Compile Include="Features\Item\Models\Item.cs" />

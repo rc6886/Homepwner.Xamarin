@@ -7,8 +7,10 @@ namespace Homepwner.API.Services
     public interface IFileService
     {
         void AddFile(Guid fileId, byte[] file);
+        void UpdateFile(Guid fileId, byte[] file);
         void DeleteFile(Guid fileId);
         string GetFileSavePath(Guid fileId);
+        byte[] GetFileAsBytes(Guid fileId);
     }
 
     public class WindowsFileService : IFileService
@@ -36,15 +38,33 @@ namespace Homepwner.API.Services
             File.WriteAllBytes(filePath, file);
         }
 
+        public void UpdateFile(Guid fileId, byte[] file)
+        {
+            DeleteFile(fileId);
+            AddFile(fileId, file);
+        }
+
         public void DeleteFile(Guid fileId)
         {
             var filePath = GetFileSavePath(fileId);
+
+            if (!File.Exists(filePath))
+            {
+                return;
+            }
+
             File.Delete(filePath);
         }
 
         public string GetFileSavePath(Guid fileId)
         {
             return Path.Combine(_configuration.PhotoRootSavePath, _systemTime.Now.Date.ToString("yyyy-MM-dd"), fileId + ".png");
+        }
+
+        public byte[] GetFileAsBytes(Guid fileId)
+        {
+            var file = GetFileSavePath(fileId);
+            return File.ReadAllBytes(file);
         }
     }
 }

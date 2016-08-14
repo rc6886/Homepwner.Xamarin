@@ -27,7 +27,7 @@ namespace Homepwner.Xamarin.iOS
 		{
 			base.ViewWillAppear(animated);
 
-		    var homepwnerApi = RestService.For<IHomepwnerApi>("http://homepwnerapi.ngrok.io", new RefitSettings
+		    var homepwnerApi = RestService.For<IHomepwnerApi>("http://homepwnertestapi.ngrok.io", new RefitSettings
 		    {
 		        JsonSerializerSettings = new JsonSerializerSettings
 		        {
@@ -127,6 +127,7 @@ namespace Homepwner.Xamarin.iOS
 		public string SerialNumber { get; set; }
 		public double Value { get; set; }
 		public DateTime DateCreated { get; set; }
+	    public byte[] Image { get; set; }
 	}
 }
 

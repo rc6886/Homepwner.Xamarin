@@ -24,6 +24,10 @@ namespace Homepwner.Xamarin.iOS
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIImageView ItemImage { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel Name { get; set; }
 
         [Outlet]
@@ -56,6 +60,11 @@ namespace Homepwner.Xamarin.iOS
             if (DateCreated != null) {
                 DateCreated.Dispose ();
                 DateCreated = null;
+            }
+
+            if (ItemImage != null) {
+                ItemImage.Dispose ();
+                ItemImage = null;
             }
 
             if (Name != null) {

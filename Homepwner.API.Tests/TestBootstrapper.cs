@@ -1,11 +1,8 @@
-﻿using System;
-using System.Transactions;
+﻿using System.Transactions;
 using Autofac;
 using AutoMapper;
 using Homepwner.API.AutoMapper;
-using Homepwner.API.Services;
 using MediatR;
-using Moq;
 using NPoco;
 using NUnit.Framework;
 
@@ -30,9 +27,9 @@ namespace Homepwner.API.Tests
 
     public class MediatorTestFixtureBase : TestFixtureBase
     {
+        public IContainer Container { get; }
         public IMediator Mediator { get; private set; }
         public IDatabase Database { get; private set; }
-        public Mock<IFileService> FileServiceMock { get; }
 
         public MediatorTestFixtureBase()
         {
@@ -40,14 +37,10 @@ namespace Homepwner.API.Tests
 
             builder.RegisterModule(new DomainIocModule());
 
-            FileServiceMock = new Mock<IFileService>();
-            FileServiceMock.Setup(mock => mock.AddFile(It.IsAny<Guid>(), It.IsAny<byte[]>()));
-            builder.Register(cfg => FileServiceMock.Object).As<IFileService>();
+            Container = builder.Build();
 
-            var container = builder.Build();
-
-            Mediator = container.Resolve<IMediator>();
-            Database = container.Resolve<IDatabase>();
+            Mediator = Container.Resolve<IMediator>();
+            Database = Container.Resolve<IDatabase>();
 
             Mapper.Initialize(cfg =>
             {
