@@ -7,6 +7,7 @@ using Homepwner.API.Features.Item.Handlers;
 using Homepwner.API.Services;
 using MediatR;
 using NPoco;
+using NPoco.FluentMappings;
 using Configuration = Homepwner.API.Constants.Configuration;
 using Module = Autofac.Module;
 

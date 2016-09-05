@@ -37,7 +37,7 @@ namespace Homepwner.API.Features.Item.Handlers
                     var item = Mapper.Map<Models.Item>(message);
                     item.Id = Guid.NewGuid();
 
-                    _database.Insert(item);
+                    _database.Insert("Item", "Id", false, item);
 
                     var itemImage = new ItemImage
                     {
@@ -46,7 +46,7 @@ namespace Homepwner.API.Features.Item.Handlers
                         DateCreated = DateTime.UtcNow,
                     };
 
-                    _database.Insert(itemImage);
+                    _database.Insert("ItemImage", "Id", false, itemImage);
 
                     _fileService.AddFile(itemImage.Id, message.Photo);
 
